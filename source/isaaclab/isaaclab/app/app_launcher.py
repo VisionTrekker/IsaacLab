@@ -99,7 +99,7 @@ class AppLauncher:
         elif isinstance(launcher_args, argparse.Namespace):
             launcher_args = launcher_args.__dict__
 
-        # Check that arguments are unique
+        # Check that arguments are unique，检查并确保 launcher_args 和 kwargs 没有重复参数
         if len(kwargs) > 0:
             if not set(kwargs.keys()).isdisjoint(launcher_args.keys()):
                 overlapping_args = set(kwargs.keys()).intersection(launcher_args.keys())
@@ -121,16 +121,16 @@ class AppLauncher:
         self.local_rank: int  # local rank of GPUs in the current node
         self.global_rank: int  # global rank for multi-node training
 
-        # Integrate env-vars and input keyword args into simulation app config
+        # Integrate env-vars and input keyword args into simulation app config，解析环境变量和输入参数，生成最终配置
         self._config_resolution(launcher_args)
 
-        # Internal: Override SimulationApp._start_app method to apply patches after app has started.
+        # Internal: Override SimulationApp._start_app method to apply patches after app has started. 为模拟器启动后应用补丁做准备
         self.__patch_simulation_start_app(launcher_args)
 
         # Create SimulationApp, passing the resolved self._config to it for initialization
-        self._create_app()
+        self._create_app()  # 创建 SimulationApp 实例
         # Load IsaacSim extensions
-        self._load_extensions()
+        self._load_extensions()  # 加载必要的 Omniverse 扩展
         # Hide the stop button in the toolbar
         self._hide_stop_button()
         # Set settings from the given rendering mode

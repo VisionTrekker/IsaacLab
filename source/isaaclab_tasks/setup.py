@@ -19,8 +19,8 @@ EXTENSION_TOML_DATA = toml.load(os.path.join(EXTENSION_PATH, "config", "extensio
 INSTALL_REQUIRES = [
     # generic
     "numpy",
-    "torch==2.5.1",
-    "torchvision>=0.14.1",  # ensure compatibility with torch 1.13.1
+    "torch>=2.7.0",  # for 50 series GPU
+    "torchvision>=0.19.0",  # ensure compatibility with torch 1.13.1
     # 5.26.0 introduced a breaking change, so we restricted it for now.
     # See issue https://github.com/tensorflow/tensorboard/issues/6808 for details.
     "protobuf>=3.20.2, < 5.0.0",

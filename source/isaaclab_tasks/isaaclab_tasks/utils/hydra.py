@@ -39,7 +39,9 @@ def register_task_to_hydra(
         A tuple containing the parsed environment and agent configuration objects.
     """
     # load the configurations
+    # 1. 先加载 指定task的 env配置
     env_cfg = load_cfg_from_registry(task_name, "env_cfg_entry_point")
+    # 2. 加载 指定task的 RL配置
     agent_cfg = None
     if agent_cfg_entry_point:
         agent_cfg = load_cfg_from_registry(task_name, agent_cfg_entry_point)
@@ -56,6 +58,7 @@ def register_task_to_hydra(
     # replace slices with strings because OmegaConf does not support slices
     cfg_dict = replace_slices_with_strings(cfg_dict)
     # store the configuration to Hydra
+    # 将处理后的配置字典注册到Hydra配置存储中，使用任务名称作为配置名称，便于后续通过@hydra.main加载
     ConfigStore.instance().store(name=task_name, node=cfg_dict)
     return env_cfg, agent_cfg
 
